@@ -72,6 +72,8 @@ const spin = () => {
     }
   }
 
+  // symbols = [[ a,a ],[ b,b,b,b ],[ c,c,c,c ]]
+
   const reels = [];
   for (let i = 0; i < COLS; i++) {
     reels.push([]);
@@ -84,10 +86,45 @@ const spin = () => {
     }
   }
   return reels;
+  // reels = [[a,b,b],[c,d,a],[b,d,d]]
 };
 
-const reels = spin();
-console.log(reels);
+const transpose = (reels) => {
+  const rows = [];
+
+  for (let i = 0; i < ROWS; i++) {
+    rows.push([]);
+    for (let j = 0; j < COLS; j++) {
+      rows[i].push(reels[j][i]);
+    }
+  }
+  return rows;
+  // reels = [[a,b,b],[c,d,a],[b,d,d]]
+  // rows=[[a,c,b],[b,d,d],[b,a,d]]
+};
+
+const printRows = (rows) => {
+  for (const row of rows) {
+    let rowString = "";
+
+    for (const [i, symbol] of row.entries()) {
+      rowString += symbol;
+
+      if (i != row.length - 1) {
+        rowString += " | ";
+      }
+    }
+    console.log(rowString);
+    //rowString = "a | c | b"
+  }
+};
+
 let balance = deposit();
 const numberOfLines = getNumberOfLines();
 const bet = getBet(balance, numberOfLines);
+const reels = spin();
+// console.log(reels);
+const rows = transpose(reels);
+// console.log(rows);
+
+printRows(rows);
